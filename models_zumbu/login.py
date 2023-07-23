@@ -39,11 +39,9 @@ class Login:
         # * uncheck rember 
         chkRemember = await chkRemember_task
         if chkRemember:
-            await chkRemember.evaluate('el => el.checked=false')           
+            await chkRemember.evaluate('el => el.checked=true')           
         await asyncio.sleep(2)  
             
         # * submit form
         await page.locator(self.submit).click()
-        await asyncio.sleep(5)
-            
-        await page.screenshot(path="login_page.png")
+        await asyncio.sleep(3)
