@@ -31,7 +31,11 @@ class Login:
         await asyncio.sleep(2)
         await page.locator(self.password).fill(password) 
         await asyncio.sleep(2)
-            
+                           
+        # * accept cookies
+        await page.locator(self.cookies).click()
+        await asyncio.sleep(2)
+          
         # * uncheck rember 
         chkRemember = await chkRemember_task
         if chkRemember:
@@ -40,10 +44,6 @@ class Login:
             
         # * submit form
         await page.locator(self.submit).click()
-        await asyncio.sleep(2)
-            
-        # * accept cookies
-        await page.locator(self.cookies).click()
-        await asyncio.sleep(2)
+        await asyncio.sleep(5)
             
         await page.screenshot(path="login_page.png")
