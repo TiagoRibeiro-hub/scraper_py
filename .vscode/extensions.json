@@ -1,0 +1,10 @@
+{
+    "recommendations": [
+        "ms-python.vscode-pylance",
+        "ms-playwright.playwright",
+        "ms-python.python",
+        "njqdev.vscode-python-typehint",
+        "kevinrose.vsc-python-indent",
+        "aaron-bond.better-comments",
+    ]
+}
