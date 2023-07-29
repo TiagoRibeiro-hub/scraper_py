@@ -16,8 +16,6 @@ async def checkout_async():
         await Cookies(context).set_async()  
         page = await context.new_page() 
         await page.route('**/*', Interceptor.block)
-        page.on("request", Interceptor.request)
-        page.on("response", Interceptor.response)
         # TODO checkout
         await page.goto('')  
         print(await page.title())
@@ -43,6 +41,8 @@ async def login_get_cookies_async():
         cookies = Cookies(context)            
         page = await context.new_page() 
         await page.route('**/*', Interceptor.block)
+        await page.on("request", Interceptor.request)
+        await page.on("response", Interceptor.response)
         await page.goto('')   
         await Login().submit_async(page, EMAIL, PASSWORD)
         await cookies.get_async()     

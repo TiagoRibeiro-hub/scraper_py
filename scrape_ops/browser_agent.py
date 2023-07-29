@@ -1,27 +1,22 @@
-from scrape_ops_utils import ScrapeOpsUtils, SCRAPEOPS_IO_API_KEY, SCRAPEOPS_FAKE_BROWSER_HEADER_ENDPOINT, SCRAPEOPS_FAKE_BROWSER_HEADER_ENABLED, SCRAPEOPS_NUM_RESULTS
+from scrape_ops.utils import SCRAPEOPS_FAKE_BROWSER_HEADER_ENDPOINT, SCRAPEOPS_FAKE_BROWSER_HEADER_ENABLED
+from scrape_ops.scrape_ops_agent import ScrapeOpsAgent
 
-class BrowserHeaderAgent:
-    async def __init__(self):
-        self.scrapeops_api_key = SCRAPEOPS_IO_API_KEY
-        self.scrapeops_endpoint = SCRAPEOPS_FAKE_BROWSER_HEADER_ENDPOINT
-        self.scrapeops_fake_browser_headers_active = SCRAPEOPS_FAKE_BROWSER_HEADER_ENABLED
-        self.scrapeops_num_results = SCRAPEOPS_NUM_RESULTS
-        self.headers_list = []
-        if ScrapeOpsUtils.is_scrapeops_fake_headers_enabled(self.scrapeops_api_key, self.scrapeops_fake_browser_headers_active):
-            await self._get_headers_list()
-        else:
-            raise Exception('Invalid Scrape Ops values')
-
-    def _get_headers_list(self): 
-        if len(self.headers_list) == 0:     
-            self.headers_list = ScrapeOpsUtils.get_headers_list(self.scrapeops_api_key, self.scrapeops_num_results, self.scrapeops_endpoint)
-         
-    def _get_random_browser_header(self):
-        random_index = ScrapeOpsUtils.get_random(self.headers_list)
-        return self.headers_list.pop(random_index)
+class BrowserHeaderAgent(ScrapeOpsAgent):
+    def __init__(
+        self, 
+        scrapeops_api_key: str, 
+        scrapeops_num_results: str, 
+        repeat_list: bool
+        ):
+        super().__init__(
+            scrapeops_api_key, 
+            scrapeops_num_results, 
+            SCRAPEOPS_FAKE_BROWSER_HEADER_ENDPOINT,
+            SCRAPEOPS_FAKE_BROWSER_HEADER_ENABLED,
+            repeat_list)
     
-    def get_browser_headers(self):        
-        random_browser_header = self._get_random_browser_header()
+    async def get_async(self):        
+        random_browser_header = await self._get_random_header_async()
         return {
             'upgrade-insecure-requests': random_browser_header['upgrade-insecure-requests'],
             'sec-ch-ua': random_browser_header['sec-ch-ua'],
@@ -35,6 +30,4 @@ class BrowserHeaderAgent:
             'accept-encoding': random_browser_header['accept-encoding'],
             'accept-language': random_browser_header['accept-language']  ,   
         }
-         
 
-        

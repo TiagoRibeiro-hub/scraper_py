@@ -1,3 +1,4 @@
+from enviroment import SCRAPEOPS_IO_API_KEY
 
 # ! GLOBAL
 BASE_URL = 'https://www.zumub.com/EN/'
@@ -29,3 +30,5 @@ BLOCK_RESOURCE_NAMES = [
   'googletagmanager',
 ]
 
+SCRAPEOPS_IO_API_KEY = SCRAPEOPS_IO_API_KEY
+SCRAPEOPS_NUM_RESULTS = 5
