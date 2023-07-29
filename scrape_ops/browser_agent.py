@@ -12,11 +12,13 @@ class BrowserHeaderAgent:
         else:
             raise Exception('Invalid Scrape Ops values')
 
-    def _get_headers_list(self):      
-        self.headers_list = ScrapeOpsUtils.get_headers_list(self.scrapeops_api_key, self.scrapeops_num_results, self.scrapeops_endpoint)
+    def _get_headers_list(self): 
+        if len(self.headers_list) == 0:     
+            self.headers_list = ScrapeOpsUtils.get_headers_list(self.scrapeops_api_key, self.scrapeops_num_results, self.scrapeops_endpoint)
          
     def _get_random_browser_header(self):
-        return ScrapeOpsUtils.get_random(self.headers_list)
+        random_index = ScrapeOpsUtils.get_random(self.headers_list)
+        return self.headers_list.pop(random_index)
     
     def get_browser_headers(self):        
         random_browser_header = self._get_random_browser_header()

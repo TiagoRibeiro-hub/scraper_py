@@ -30,6 +30,5 @@ class ScrapeOpsUtils:
         else:
             return True
 
-    def get_random(list):
-        random_index = randint(0, len(list) - 1)
-        return list[random_index]
+    def get_random(list) -> int: 
+        return randint(0, len(list) - 1)
