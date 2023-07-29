@@ -1,5 +1,6 @@
-from global_imports import Path, json
-    
+import json
+from pathlib import Path
+
 class Cookies:
     def __init__(self, context): 
         self.context = context 

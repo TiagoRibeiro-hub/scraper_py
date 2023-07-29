@@ -39,7 +39,7 @@ class Login:
         # * uncheck rember 
         chkRemember = await chkRemember_task
         if chkRemember:
-            await chkRemember.evaluate('el => el.checked=true')           
+            await chkRemember.evaluate('el => el.checked=false')           
         await asyncio.sleep(2)  
             
         # * submit form

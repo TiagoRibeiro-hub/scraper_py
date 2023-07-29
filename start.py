@@ -1,6 +1,13 @@
+import asyncio
+from contextlib import suppress
 from playwright.async_api  import async_playwright
-from global_imports import asyncio, BASE_URL, ZUMBU, Login, EMAIL, PASSWORD, Browser, Context, Cookies, Interceptor
-    
+from action import Action   
+from models_playwright.cookies import Cookies
+from models_playwright.browser import Browser
+from models_playwright.context import Context
+from interceptors.interceptors import Interceptor
+from constants import BASE_URL, ZUMBU
+
 async def main():
     tasks = [
         get_zumub_products_async(), 
@@ -20,7 +27,7 @@ async def checkout_async():
         await page.goto('')  
         print(await page.title())
         await asyncio.sleep(10)
-        await close_async(browser, context) 
+        await Action.close_async(browser, context) 
         
 async def get_zumub_products_async():
     async with async_playwright() as p:
@@ -31,25 +38,27 @@ async def get_zumub_products_async():
         await page.goto(ZUMBU) 
         # TODO products      
         print(await page.title())
-        await close_async(browser, context)
-        
+        await Action.close_async(browser, context)
+       
 async def login_get_cookies_async():
-    async with async_playwright() as p:
-        browser = await Browser.get_async(p, False)
-        # * set context for login, get page, submit add get cookies
-        context = await Context(browser, BASE_URL).set_async()    
-        cookies = Cookies(context)            
-        page = await context.new_page() 
-        await page.route('**/*', Interceptor.block)
-        await page.on("request", Interceptor.request)
-        await page.on("response", Interceptor.response)
-        await page.goto('')   
-        await Login().submit_async(page, EMAIL, PASSWORD)
-        await cookies.get_async()     
-        await close_async(browser, context)
+    async with async_playwright() as playwright:
+        await Action.login_get_cookies_async(playwright)
 
-async def close_async(browser, context):
-    await context.close()
-    await browser.close()
-          
 asyncio.run(main())
+
+if __name__ == '__main__':
+    try:
+        loop = asyncio.get_event_loop()
+        loop.run_until_complete(main())
+
+        # Cancel all running tasks:
+        pending = asyncio.Task.all_tasks()
+        for task in pending:
+            task.cancel()
+            # Now we should await task to execute it's cancellation.
+            # Cancelled task raises asyncio.CancelledError that we can suppress:
+            with suppress(asyncio.CancelledError):
+                loop.run_until_complete(task)
+    except:
+        pass
+                   
