@@ -1,5 +1,9 @@
+# folders
 venv/
 __pycache__/
+
+# files
 enviroment.py
 *.json
 *.png
+*.log

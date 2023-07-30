@@ -18,8 +18,11 @@ class Utils:
             'num_headers': scrapeops_num_results
             }   
         async with httpx.AsyncClient() as client: 
-            response = await client.get(scrapeops_endpoint, params=urlencode(payload))
-            return response.json().get('result', [])
+            try:
+                response = await client.get(scrapeops_endpoint, params=urlencode(payload))
+                return response.json().get('result', [])
+            except Exception as e:
+                raise Exception(e)
 
     def is_scrapeops_fake_headers_enabled(scrapeops_api_key, scrapeops_fake_header_active):
         if scrapeops_api_key is None or scrapeops_api_key == '' or scrapeops_fake_header_active == False:
