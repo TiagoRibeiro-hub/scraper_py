@@ -6,10 +6,10 @@ from models_playwright.browser import Browser
 from models_playwright.context import Context
 from interceptors.interceptors import Interceptor
 from constants import BASE_URL, ZUMBU
-import logger.logs as log
+import logger.logs as Logger
 async def main():
     try:
-        log.set_up_logger()
+        Logger.set_up_logger()
         tasks = [
             get_zumub_products_async(), 
             login_get_cookies_async()
