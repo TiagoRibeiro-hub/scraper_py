@@ -1,7 +1,7 @@
 # config file:
 - It must be in the root directory => config.yaml
-- example:
-    logger:
+- example: (to use default valuessta)
+    logger: 
         path: 
         file_input_format:
         console_level: 
@@ -25,9 +25,9 @@
 - default WARNING
 
 ### from which level start writing logs
-- 0 = default
-- 1 = DEBUG
-- 2 = INFO
-- 3 = WARNING
-- 4 = ERROR
-- 5 = CRITICAL
+- 0 (default)
+- 1 (DEBUG)
+- 2 (INFO)
+- 3 (WARNING)
+- 4 (ERROR)
+- 5 (CRITICAL)
