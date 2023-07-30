@@ -1,6 +1,4 @@
-import logging
-import datetime as dt
-from pathlib import Path
+from .settings import logging, Settings
 
 file_handler = None
 
@@ -9,29 +7,18 @@ def _set_logger(logger_name) -> logging.Logger:
     logger.addHandler(file_handler)
     return logger
 
-def set_up_logger(
-    path: str = None, 
-    level = logging.WARNING, 
-    format: str = '%(asctime)s: %(levelname)s - %(message)s'
-    ):
+def set_up_logger(multiple_documents = False):
+    settings = Settings(multiple_documents)
     for handler in logging.root.handlers:
         logging.root.removeHandler(handler)
     
-    logging.basicConfig(level=logging.DEBUG)
+    logging.basicConfig(level=settings.console_level)
+ 
+    file_handler = logging.FileHandler(settings.path)
+    file_handler.setLevel(settings.log_file_level)
+    file_handler.setFormatter(logging.Formatter(settings.file_input_format))
 
-    today = dt.datetime.today()
-    file_name = f'{today.month:02d}-{today.day:02d}-{today.year}.log'
-
-    if path is None:
-        path = Path.cwd()
-    elif path.endswith('/'):
-        path[:-1]
     
-
-    file_handler = logging.FileHandler(f'{path}/{file_name}')
-    file_handler.setLevel(level)
-    file_handler.setFormatter(logging.Formatter(format))
-
 def info(logger_name, message):
     _set_logger(logger_name).log(logging.INFO, message)
   
