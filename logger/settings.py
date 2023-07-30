@@ -14,9 +14,14 @@ class Settings:
         self.file_input_format = '%(asctime)s: %(levelname)s - %(message)s'
         self.path = ''
         self.file_handler = None
-        self._set_configuration()
+        self.__set_configuration()
         
-    def _set_configuration(self) -> str:           
+    def set_logger(self, logger_name):
+        logger = logging.getLogger(logger_name)
+        logger.addHandler(self.file_handler)
+        return logger
+    
+    def __set_configuration(self) -> str:           
         with open(f'{ROOT_DIR}/config.yaml', 'r') as f:
             try:
                 config = None
@@ -33,18 +38,13 @@ class Settings:
                 if config is None:
                     raise Exception("yaml config is empty") 
                 
-                self._set_props(config)
-                self._set_up_handler()
+                self.__set_props(config)
+                self.__set_up_handler()
             
             except Exception as e:
                 print("yaml failed. ", e.args)
     
-    def _set_logger(function_name, file_handler):
-        logger = logging.getLogger(function_name)
-        logger.addHandler(file_handler)
-        return logger
-
-    def _set_up_handler(self):
+    def __set_up_handler(self):
         for handler in logging.root.handlers:
             logging.root.removeHandler(handler)
         
@@ -54,13 +54,13 @@ class Settings:
         self.file_handler.setLevel(self.log_file_level)
         self.file_handler.setFormatter(logging.Formatter(self.file_input_format))    
                    
-    def _set_props(self, config) -> str:   
+    def __set_props(self, config) -> str:   
         self.file_input_format = config['file_input_format']
-        self._set_console_level(config['console_level'])
-        self._set_log_file_level(config['log_file_level'])
-        self._set_path(config['path']) 
+        self.__set_console_level(config['console_level'])
+        self.__set_log_file_level(config['log_file_level'])
+        self.__set_path(config['path']) 
 
-    def _set_path(self, path):
+    def __set_path(self, path):
         if path is None:
             path = f'{ROOT_DIR}/logs'
         if not os.path.exists(path):
@@ -73,19 +73,19 @@ class Settings:
         file_name = f'{today.month:02d}-{today.day:02d}-{today.year}.log'             
         self.path = f'{path}/{file_name}'
         
-    def _set_console_level(self, level):
+    def __set_console_level(self, level):
         if isinstance(level, int):
-            result = self._set_level(level)
+            result = self.__set_level(level)
             if result is not None:
                 self.console_level = result
                 
-    def _set_log_file_level(self, level):
+    def __set_log_file_level(self, level):
         if isinstance(level, int):
-            result = self._set_level(level)
+            result = self.__set_level(level)
             if result is not None:
                 self.log_file_level = result
                  
-    def _set_level(self, level: int):
+    def __set_level(self, level: int):
         if level == 1:
             return logging.DEBUG
         elif level == 2:

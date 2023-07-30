@@ -2,12 +2,12 @@ from .settings import Settings
 
 SETTINGS: Settings
    
-def set_up_logger(multiple_documents = False):
+def config_logger(multiple_documents = False):
     global SETTINGS
     SETTINGS = Settings(multiple_documents)
     
-def set_logger(function_name):
-    return Settings._set_logger(function_name, SETTINGS.file_handler)
+def set_logger(logger_name):
+    return SETTINGS.set_logger(logger_name)
 
     
 

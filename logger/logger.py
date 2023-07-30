@@ -1,17 +1,20 @@
 import logger.logs as logs
 
 class Logger():   
-    def info(function_name, message):
-        logs.set_logger(function_name).info(message)
-    
-    def warning(function_name, message):
-        logs.set_logger(function_name).warning(message)
-
-    def error(function_name, message):
-        logs.set_logger(function_name).error(message)
+    def debug(logger_name, message):
+        logs.set_logger(logger_name).debug(message)
         
-    def critical(function_name, message):
-        logs.set_logger(function_name).critical(message)
+    def info(logger_name, message):
+        logs.set_logger(logger_name).info(message)
+    
+    def warning(logger_name, message):
+        logs.set_logger(logger_name).warning(message)
 
-    def set_up_logger(multiple_documents = False):
-        logs.set_up_logger(multiple_documents)
+    def error(logger_name, message):
+        logs.set_logger(logger_name).error(message)
+        
+    def critical(logger_name, message):
+        logs.set_logger(logger_name).critical(message)
+
+    def config_logger(multiple_documents = False):
+        logs.config_logger(multiple_documents)

@@ -9,7 +9,7 @@ from constants import BASE_URL, ZUMBU
 import logger.logs as Logger
 async def main():
     try:
-        Logger.set_up_logger()
+        Logger.config_logger()
         tasks = [
             get_zumub_products_async(), 
             login_get_cookies_async()
