@@ -14,24 +14,30 @@ class Settings:
         self.file_input_format = '%(asctime)s: %(levelname)s - %(message)s'
         self.path = self._set_configuration()
         
-    def _set_configuration(self) -> str:
+    def _set_configuration(self) -> str:           
         with open(f'{ROOT_DIR}/config.yaml', 'r') as f:
             try:
                 config = None
                 if self.multiple_documents is True:
-                    configs = yaml.safe_load_all(f)
-                    config = configs['logger']
+                    docs = yaml.safe_load_all(f)
+                    for doc in docs:
+                        for k, v in doc.items():
+                            if k == 'logger':
+                                config = v
+     
                 else:
-                    config = yaml.safe_load(f)
+                    doc = yaml.safe_load(f)
+                    config = doc['logger']
                 
+                print(config)
                 if config is None:
-                    raise Exception("yaml config failed") 
+                    raise Exception("yaml config is empty") 
                 
-                path = self._set_props(config['logger'])
+                path = self._set_props(config)
                 return self._set_path(path)
             
             except Exception as e:
-                print("yaml failed. ", e)
+                print("yaml failed. ", e.args)
 
     def _set_path(self, path):
         if path is None:
