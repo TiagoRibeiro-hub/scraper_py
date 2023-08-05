@@ -1,3 +1,6 @@
+# Docs
+-https://docs.python.org/3/library/logging.html
+
 # config file:
 - It must be in the root directory => config.yaml
 - example: (to use default valuessta)
@@ -11,11 +14,14 @@
 ### where the log files will be saved
 - default => root directory/logs
 ## file input format:
-- default => '%(asctime)s: %(levelname)s - %(message)s'
+- default => '%(asctime)s - %(levelname)s - %(name)s -> %(message)s (%(filename)s:%(lineno)d)'
 ### meaning
 - %(asctime)s => DEBUG 
 - %(levelname)s => WARNING
+- %(name)s => logger name
 - %(message)s' => log message
+- %(filename)s => file name
+- %(lineno)d => linha do log
 
 ## levels:
 ## console level:

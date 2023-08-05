@@ -10,10 +10,8 @@ class Interceptor:
         return route.continue_()
       
     def request(request):
-      print("REQUEST: ", request)
       return request
     
     def response(response):
-      print("RESPONSE ", response)
       return response
     

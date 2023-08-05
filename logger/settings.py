@@ -1,32 +1,61 @@
+from collections.abc import Mapping
 from pathlib import Path
 import datetime as dt
 import os
+from typing import Any
 import yaml
 import logging
 
 ROOT_DIR = Path.cwd()
+FORMAT = '%(asctime)s - %(levelname)s - %(name)s -> %(message)s (%(filename)s:%(lineno)d)'
+CONSOLE_LEVEL = logging.DEBUG
+
 class Singleton(type):
     _instance = {}   
     def __call__(cls, *args, **kwargs):
         if cls not in cls._instance:
             cls._instance[cls] = super(Singleton, cls).__call__(*args, **kwargs)
         return cls._instance[cls]   
+
+class LoggerFormatter(logging.Formatter):
+    # * colors
+    grey = '\x1b[38;21m'
+    blue = '\033[94m'
+    yellow = '\x1b[33;21m'
+    red = '\x1b[31;21m'
+    bold_red = '\x1b[31;1m'
+    reset = '\x1b[0m'
+
+    FORMATS = {
+        logging.DEBUG: grey + FORMAT + reset,
+        logging.INFO: blue + FORMAT + reset,
+        logging.WARNING: yellow + FORMAT + reset,
+        logging.ERROR: red + FORMAT + reset,
+        logging.CRITICAL: bold_red + FORMAT + reset
+    }
+
+    def format(self, record):
+        log_fmt = self.FORMATS.get(record.levelno)
+        formatter = logging.Formatter(log_fmt)
+        return formatter.format(record)  
     
 class Settings(metaclass=Singleton):
      
     def __init__(self, multiple_documents = False):  
         self.multiple_documents = multiple_documents
-        self.console_level = logging.DEBUG
         self.log_file_level = logging.WARNING
-        self.file_input_format = '%(asctime)s: %(levelname)s - %(message)s'
         self.path = ''
         self.file_handler = None
         self.__set_configuration()
         print_message('LOGGER INFO', 'Logger configuration completed successfully.')
         
-    def set_logger(self, logger_name):
+    def set_logger(self, logger_name):  
+        # TODO https://docs.python.org/3/howto/logging-cookbook.html#multiple-handlers-and-formatters     
+        # create console handler with a higher log level
         logger = logging.getLogger(logger_name)
-        logger.addHandler(self.file_handler)
+        console_handler = logging.StreamHandler()
+        console_handler.setFormatter(LoggerFormatter())
+        logger.addHandler(console_handler)    
         return logger
     
     def __set_configuration(self) -> str:           
@@ -66,12 +95,14 @@ class Settings(metaclass=Singleton):
         for handler in logging.root.handlers:
             logging.root.removeHandler(handler)
         
-        logging.basicConfig(level=self.console_level)
-
-        self.file_handler = logging.FileHandler(self.path)
-        self.file_handler.setLevel(self.log_file_level)
-        self.file_handler.setFormatter(logging.Formatter(self.file_input_format))    
-                   
+        # * format for file handler
+        logging.basicConfig(
+            level= self.log_file_level,
+            format= FORMAT,
+            filemode='w',
+            filename= self.path) 
+                
+              
     def __set_props(self, config) -> str:   
         self.__set_file_input_format(config['file_input_format'])         
         self.__set_console_level(config['console_level'])
@@ -93,13 +124,15 @@ class Settings(metaclass=Singleton):
     
     def __set_file_input_format(self, file_input_format):
         if file_input_format is not None:
-            self.file_input_format = file_input_format
+            global FORMAT
+            FORMAT = file_input_format
             
     def __set_console_level(self, level):
         if isinstance(level, int):
             result = self.__set_level(level)
             if result is not None:
-                self.console_level = result
+                global CONSOLE_LEVEL 
+                CONSOLE_LEVEL = result
                 
     def __set_log_file_level(self, level):
         if isinstance(level, int):
