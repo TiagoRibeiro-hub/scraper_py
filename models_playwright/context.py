@@ -1,6 +1,7 @@
 from scrape_ops.browser_agent import BrowserHeaderAgent
-from constants import SCRAPEOPS_NUM_RESULTS, SCRAPEOPS_IO_API_KEY
+from zumub.constants import SCRAPEOPS_NUM_RESULTS, SCRAPEOPS_IO_API_KEY
 import asyncio
+from logger.logger import Logger
 
 class Context:
     def __init__(self, browser, base_url):
@@ -15,14 +16,14 @@ class Context:
         self._headers = None
     
     async def set_async(self):
-        await self._get_browser_header_async()
+        await self.__get_browser_header_async()
         return await self.browser.new_context(
                 base_url= self.base_url,
                 extra_http_headers= self._headers
             )
         
-    async def _get_browser_header_async(self):
+    async def __get_browser_header_async(self):
         self._headers = await self.browser_header_agent.get_async()
-        print("header", self._headers)
         if self._headers is None:
-            raise Exception('BrowserHeaderAgent response is none')
+            Logger.warning('CONTEXT', f'BrowserHeaderAgent response is none')  
+            raise Exception('Browser Header Agent response is none')

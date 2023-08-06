@@ -2,7 +2,7 @@ import json
 from pathlib import Path
 from logger.logger import Logger
 
-COOKIES_PATH = 'json_files/cookies.json'
+COOKIES_PATH = 'zumub/json_files/cookies.json'
 class Cookies:
     def __init__(self, context): 
         self.context = context 

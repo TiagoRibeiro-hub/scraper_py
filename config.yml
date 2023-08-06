@@ -1,5 +1,5 @@
 logger:
-  path: 
+  path: 'zumub/logs'
   file_input_format: 
   console_level: 
   log_file_level: 
