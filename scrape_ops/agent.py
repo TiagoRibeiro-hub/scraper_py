@@ -1,6 +1,6 @@
-from abc import abstractmethod
+from abc import ABC, abstractmethod
 
-class Agent:
+class Agent(ABC):
     def __init__(
         self, 
         api_key: str, 

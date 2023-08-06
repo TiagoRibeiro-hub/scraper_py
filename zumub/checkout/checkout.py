@@ -6,7 +6,7 @@ from models_playwright.browser import Browser
 from models_playwright.context import Context
 from interceptors.interceptors import Interceptor
 from zumub.constants import BASE_URL
-from logger.logger import Logger
+from logger import *
 
 async def main():
     async with async_playwright() as p:
@@ -16,7 +16,7 @@ async def main():
         # total_page = await action.total_pages(page)
         # await page.close()    
         try:
-            Logger.set_configuration_logger()
+            logger.set_configuration()
             await checkout_async() 
         except Exception as e:
             action.cancel_all_tasks(e)

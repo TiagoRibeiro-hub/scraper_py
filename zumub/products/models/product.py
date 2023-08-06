@@ -1,8 +1,8 @@
 from models_playwright.context import Context
 from interceptors.interceptors import Interceptor
 from zumub.constants import BASE_URL, PAGE_EQUALS, ZUMBU
-from logger.logger import Logger
 import js.js as JS
+from logger import *
 
 class Product:   
     
@@ -41,6 +41,6 @@ class Product:
             return total_pages
         
         except Exception as e:
-            Logger.error('FUNC: TOTAL_PAGES', f'Somenthing went wrong, {e}')          
+            logger.error('FUNC: TOTAL_PAGES', f'Somenthing went wrong, {e}')          
             raise Exception(e)    
     
