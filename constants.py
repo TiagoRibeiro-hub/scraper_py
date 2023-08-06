@@ -3,6 +3,7 @@ from enviroment import SCRAPEOPS_IO_API_KEY
 # ! GLOBAL
 BASE_URL = 'https://www.zumub.com/EN/'
 ZUMBU = 'zumbu'
+PAGE_EQUALS = '?page='
 
 # ! BLOCKERS
 # * block pages by resource type.
@@ -31,4 +32,4 @@ BLOCK_RESOURCE_NAMES = [
 ]
 
 SCRAPEOPS_IO_API_KEY = SCRAPEOPS_IO_API_KEY
-SCRAPEOPS_NUM_RESULTS = 5
+SCRAPEOPS_NUM_RESULTS = 10

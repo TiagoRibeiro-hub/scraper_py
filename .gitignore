@@ -2,8 +2,7 @@
 venv/
 __pycache__/
 logs/
-
+json_files/
 # files
 enviroment.py
-*.json
 *.png

@@ -43,7 +43,7 @@ class Settings(metaclass=Singleton):
      
     def __init__(self, multiple_documents = False):  
         self.multiple_documents = multiple_documents
-        self.log_file_level = logging.WARNING
+        self.log_file_level = logging.INFO
         self.path = ''
         self.file_handler = None
         self.__set_configuration()
