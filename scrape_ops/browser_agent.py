@@ -1,5 +1,7 @@
+import asyncio
+# * ---
 from scrape_ops.utils import SCRAPEOPS_FAKE_BROWSER_HEADER_ENDPOINT, SCRAPEOPS_FAKE_BROWSER_HEADER_ENABLED
-from scrape_ops.scrape_ops_agent import ScrapeOpsAgent, asyncio
+from scrape_ops.scrape_ops_agent import ScrapeOpsAgent
 
 
 class BrowserHeaderAgent(ScrapeOpsAgent):

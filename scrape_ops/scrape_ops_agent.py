@@ -1,6 +1,5 @@
 from scrape_ops.utils import Utils
 from scrape_ops.agent import Agent
-import asyncio
 
 class ScrapeOpsAgent(Agent):
     def __init__(

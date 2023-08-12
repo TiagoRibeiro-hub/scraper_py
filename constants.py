@@ -1,9 +1,10 @@
 from enviroment import SCRAPEOPS_IO_API_KEY
 
-# ! GLOBAL
+# ! ZUMUB
 BASE_URL = 'https://www.zumub.com/EN/'
 ZUMBU = 'zumbu'
 PAGE_EQUALS = '?page='
+ZUMUB_COOKIES_PATH = 'zumub/zumub_data/cookies.json'
 
 # ! BLOCKERS
 # * block pages by resource type.
@@ -31,5 +32,6 @@ BLOCK_RESOURCE_NAMES = [
   'googletagmanager',
 ]
 
+# ! SCRAPEOPS IO
 SCRAPEOPS_IO_API_KEY = SCRAPEOPS_IO_API_KEY
 SCRAPEOPS_NUM_RESULTS = 10

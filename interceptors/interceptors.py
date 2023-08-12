@@ -1,4 +1,4 @@
-from zumub.constants import BLOCK_RESOURCE_NAMES, BLOCK_RESOURCE_TYPES
+from constants import BLOCK_RESOURCE_NAMES, BLOCK_RESOURCE_TYPES
 
 class Interceptor:
     def block(route):

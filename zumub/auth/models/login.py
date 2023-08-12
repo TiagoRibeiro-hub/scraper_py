@@ -1,5 +1,5 @@
 import asyncio
-from logger.logger import Logger
+from logger import Log
 
 class Login:
     def __init__(self):  
@@ -13,7 +13,7 @@ class Login:
     
     async def submit_async(self, page, email, password): 
         try: 
-            Logger.info('LOGIN', 'Login submit started')             
+            Log.info('LOGIN', 'Login submit started')             
             # * get popup create subscribtion selector
             popup_create_subscribtion_task = page.query_selector(self.popup_create_subscribtion)
 
@@ -48,8 +48,8 @@ class Login:
             # * submit form
             await page.locator(self.submit).click()
             await asyncio.sleep(3)
-            Logger.info('LOGIN', 'Login is complete') 
+            Log.info('LOGIN', 'Login is complete') 
         except Exception as e:
-            Logger.critical('LOGIN', f'Login as failed, {e}')          
+            Log.critical('LOGIN', f'Login as failed, {e}')          
             raise Exception(e)  
             

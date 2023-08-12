@@ -1,7 +1,8 @@
-from scrape_ops import BrowserHeaderAgent
-from zumub.constants import SCRAPEOPS_NUM_RESULTS, SCRAPEOPS_IO_API_KEY
 import asyncio
-from logger import *
+# * ---
+from scrape_ops import BrowserHeaderAgent
+from constants import SCRAPEOPS_NUM_RESULTS, SCRAPEOPS_IO_API_KEY
+from logger import Log
 
 class Context:
     def __init__(self, browser, base_url):
@@ -25,5 +26,5 @@ class Context:
     async def __get_browser_header_async(self):
         self._headers = await self.browser_header_agent.get_async()
         if self._headers is None:
-            logger.warning('CONTEXT', f'BrowserHeaderAgent response is none')  
+            Log.warning('CONTEXT', f'BrowserHeaderAgent response is none')  
             raise Exception('Browser Header Agent response is none')
