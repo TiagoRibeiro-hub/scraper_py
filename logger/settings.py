@@ -1,7 +1,6 @@
 from pathlib import Path
 import datetime as dt
 import os
-import yaml
 import logging
 
 ROOT_DIR = Path.cwd()
@@ -57,30 +56,31 @@ class Settings(metaclass=Singleton):
         return logger
     
     def __set_configuration(self) -> str:           
-        try:       
-            with open(f'{ROOT_DIR}/config.yaml', 'r') as f:
-                try:
-                    config = None
-                    if self.multiple_documents is True:
-                        docs = yaml.safe_load_all(f)
-                        for doc in docs:
-                            for k, v in doc.items():
-                                if k == 'logger':
-                                    config = v
-                    else:
-                        doc = yaml.safe_load(f)
-                        config = doc['logger']
+        try:  
+            self.__default_settings()  
+            # with open(f'{ROOT_DIR}/config.yaml', 'r') as f:
+            #     try:
+            #         config = None
+            #         if self.multiple_documents is True:
+            #             docs = yaml.safe_load_all(f)
+            #             for doc in docs:
+            #                 for k, v in doc.items():
+            #                     if k == 'logger':
+            #                         config = v
+            #         else:
+            #             doc = yaml.safe_load(f)
+            #             config = doc['logger']
                     
-                    if config is None:
-                        self.__set_path(None)
-                    else:
-                        self.__set_props(config)
+            #         if config is None:
+            #             self.__set_path(None)
+            #         else:
+            #             self.__set_props(config)
                         
-                    self.__set_up_handler()          
-                except Exception as e:
-                    print('LOGGER ERROR => yaml failed: ' + e.args)
-                finally:
-                    self.__default_settings()  
+            #         self.__set_up_handler()          
+            #     except Exception as e:
+            #         print('LOGGER ERROR => yaml failed: ' + e.args)
+            #     finally:
+            #         self.__default_settings()  
         except:
             self.__default_settings()  
 

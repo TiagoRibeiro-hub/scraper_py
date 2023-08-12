@@ -4,7 +4,8 @@ from enviroment import SCRAPEOPS_IO_API_KEY
 BASE_URL = 'https://www.zumub.com/EN/'
 ZUMBU = 'zumbu'
 PAGE_EQUALS = '?page='
-ZUMUB_COOKIES_PATH = 'zumub/zumub_data/cookies.json'
+ZUMUB_DATA_PATH = 'zumub/data/'
+ZUMUB_COOKIES_PATH = 'zumub/data/cookies.json'
 
 # ! BLOCKERS
 # * block pages by resource type.
