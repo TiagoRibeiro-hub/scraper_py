@@ -5,26 +5,37 @@ from logger import Log
 
 class Product:   
     @staticmethod
-    async def get_products_by_page(browser, url, nr):
-        context = await Context(browser, BASE_URL).set_async()
-        page = await context.new_page()
-        await page.route('**/*', Interceptor.block)
-        await page.goto(f'{url}{PAGE_EQUALS}{nr}')  
-        await page.is_visible('div.inner-product-box')  
-        products_boxes = await page.query_selector_all('div.inner-product-box')
-        products = []
-        count_sold_off = 0
-        for product_box in products_boxes:
-            product = await product_box.evaluate(Product.__js_get_product()) 
-            if product is None:
-                count_sold_off += 1 
-            else:   
-                products.append(product)
-            if count_sold_off > 3:
-                break
-        await context.close()
-        return products
-    
+    async def get_products_by_page(browser, url, nr, total_products_page: int):
+        try:
+            context = await Context(browser, BASE_URL).set_async()
+            page = await context.new_page()
+            await page.route('**/*', Interceptor.block)
+            if nr is None:
+                await page.goto(f'{url}')
+            else:
+                await page.goto(f'{url}{PAGE_EQUALS}{nr}')
+                
+            await page.is_visible('div.inner-product-box')  
+            products_boxes = await page.query_selector_all('div.inner-product-box')
+            products = []
+            count_sold_off = 0
+            for product_box in products_boxes:
+                product = await product_box.evaluate(Product.__js_get_product()) 
+                if product is None:
+                    count_sold_off += 1 
+                else:   
+                    products.append(product)
+                if count_sold_off > 3:
+                    break
+                total_products_page -= 1
+                if total_products_page == 0:
+                    break
+                
+            await context.close()
+            return products
+        except Exception as e:
+            Log.error('FUNC: GET_PRODUCTS_BY_PAGE', f'Somenthing went wrong, {e}')          
+            raise Exception(e) 
     @staticmethod
     async def get_total_pages(browser, url) -> int:
         try:
@@ -37,17 +48,21 @@ class Product:
             total_pages = await pagination.evaluate(Product.__js_get_total_page())
             await context.close()
             return total_pages
+            # return 0
         
         except Exception as e:
             Log.error('FUNC: TOTAL_PAGES', f'Somenthing went wrong, {e}')          
-            raise Exception(e)    
+            raise Exception(e) 
     
     @staticmethod
     def __js_get_total_page() -> str:
         return """el => {
                     const total_products_page = el.children[1].innerText;
                     const total_products = el.children[2].innerText;
-                    return Math.ceil(parseInt(total_products)/parseInt(total_products_page));
+                    return {
+                        total_products_page: total_products_page,
+                        total_pages: Math.ceil(parseInt(total_products)/parseInt(total_products_page))
+                        };
                 }""" 
       
     @staticmethod  

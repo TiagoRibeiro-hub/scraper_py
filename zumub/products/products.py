@@ -15,26 +15,45 @@ class Products:
                 async with async_playwright() as p:
                     browser = await Browser.get_async(p, True)
                     total_pages = await Product.get_total_pages(browser, product_name)
-                    Log.info("Total Pages", f'Nr pages {total_pages}')         
+                    nr_pages = total_pages['total_pages']
+                    total_products_page = int(total_pages['total_products_page'])
+                    Log.info("Total Pages", f'Nr pages {nr_pages}')         
+                    Log.info("Total Products", f'Nr total products per page {total_products_page}')
                     
                     tasks = []
-                    for i in range(total_pages):
-                        tasks.append(Product.get_products_by_page(browser, product_name, (i + 1)))
-                        
-                    products_lists = await asyncio.gather(*tasks)
-                    products = []
-                    for product in products_lists:
-                        products += product     
+                    if nr_pages > 1:
+                        for i in range(nr_pages):
+                            tasks.append(
+                                Product.get_products_by_page(
+                                    browser, 
+                                    product_name, 
+                                    (i + 1),
+                                    total_products_page)
+                                )
+                    else:
+                        tasks.append(
+                            Product.get_products_by_page(
+                                browser, 
+                                product_name, 
+                                None,
+                                total_products_page)
+                            )
                     
-                    Log.info("Products Tasks Ends", f'Products {len(products)}')
-                    products_json = json.dumps(products)
-                    if len(products):
-                        Path(f"{ZUMUB_DATA_PATH}products_{product_name}.json").write_text(products_json)  
-
-                    await browser.close()
-                    return products_json
+                    products_lists = await asyncio.gather(*tasks)
+                    await browser.close()    
+                                         
+                products = []
+                for product in products_lists:
+                    products += product     
+                
+                Log.info("Products Tasks Ends", f'Products {len(products)}')
+                products_json = json.dumps(products)
+                if len(products):
+                    Path(f"{ZUMUB_DATA_PATH}products_{product_name}.json").write_text(products_json)  
+                  
+                return products_json
             except Exception as e:
-                Action.cancel_all_tasks(e) 
+                raise Exception(e)
 
 
           
