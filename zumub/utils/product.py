@@ -17,10 +17,15 @@ class Product:
                 
             await page.is_visible('div.inner-product-box')  
             products_boxes = await page.query_selector_all('div.inner-product-box')
+            
+            product_box_tasks = []
+            for product_box in products_boxes:
+                product_box_tasks.append(product_box.evaluate(Product.__js_get_product()))
+                
             products = []
             count_sold_off = 0
-            for product_box in products_boxes:
-                product = await product_box.evaluate(Product.__js_get_product()) 
+            for product_box_task in product_box_tasks:
+                product = await product_box_task
                 if product is None:
                     count_sold_off += 1 
                 else:   
@@ -89,10 +94,9 @@ class Product:
                         if (has_coupon != null) {
                             couponDiscount = has_coupon.innerHTML;
                         }
-                        const id = ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c => (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16));
                         return {
                             data_client: {
-                                id: id,
+                                id: ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c => (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)),
                                 name: intro_anchor.innerText, 
                                 price: prices.querySelector('[class="real_price"]').innerText,
                                 discount_price: discount_price,

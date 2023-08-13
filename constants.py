@@ -4,6 +4,8 @@ from enviroment import SCRAPEOPS_IO_API_KEY
 BASE_URL = 'https://www.zumub.com/EN/'
 ZUMBU = 'zumbu'
 PAGE_EQUALS = '?page='
+PAGE_ACTIVE_COUPONS = 'active_coupons_page'
+# * Files
 ZUMUB_DATA_PATH = 'zumub/data/'
 ZUMUB_COOKIES_PATH = 'zumub/data/cookies'
 
