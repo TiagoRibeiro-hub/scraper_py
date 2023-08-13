@@ -13,7 +13,14 @@ app = FastAPI()
 @app.get('/products/coupon/{id}')
 async def products_by_coupon(id: UUID):
     try:
-        pass
+        result = await Coupons.get_products_async(id)
+        if not result:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f'Not Found'
+                )
+        
+        return result
     except Exception as e:
         Action.cancel_all_tasks(e)
         raise HTTPException(

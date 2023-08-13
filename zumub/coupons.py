@@ -3,7 +3,8 @@ from playwright.async_api import async_playwright
 from constants import BASE_URL, PAGE_ACTIVE_COUPONS, ZUMUB_DATA_PATH
 from interceptors.interceptors import Interceptor
 from models_playwright import Browser, Context, Action
-from utils_files import Files
+from utils import Files
+from .products import Products
 
 class Coupons:
     @staticmethod
@@ -35,5 +36,15 @@ class Coupons:
                 await Action.close_async(browser, context) 
                 return Files.write_json(f"{ZUMUB_DATA_PATH}coupons", 'w', coupons)
   
+        except Exception as e:
+            raise Exception(e)
+    
+    @staticmethod
+    async def get_products_async(id):
+        try:
+            link = 'https://www.zumub.com/EN/sports-nutrition'
+            idx = link.rfind('/') + 1
+            link = link[idx:]
+            return await Products.get_async(link)      
         except Exception as e:
             raise Exception(e)

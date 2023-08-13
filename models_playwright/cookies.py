@@ -1,7 +1,6 @@
-import json
 # * ---
 from logger import Log
-from utils_files import Files
+from utils import Files
 
 class Cookies:
     def __init__(self, context, path): 

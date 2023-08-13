@@ -6,3 +6,4 @@ zumub_data/
 enviroment.py
 *.png
 *.json
+*.js

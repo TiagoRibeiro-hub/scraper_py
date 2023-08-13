@@ -1,3 +1,4 @@
+import math
 from playwright.async_api import async_playwright
 import asyncio
 from constants import ZUMUB_DATA_PATH
@@ -5,7 +6,7 @@ from constants import ZUMUB_DATA_PATH
 from logger import Log
 from models_playwright import Browser
 from zumub.utils.product import Product
-from utils_files import Files
+from utils import Files, Utils
 
 class Products:
     @staticmethod
@@ -37,10 +38,23 @@ class Products:
                             None,
                             total_products_page)
                         )
+                    
+                # split_tasks = Utils.split_list(tasks, 3)
+                # products_lists = []
+                # for tasks_splited in split_tasks:
+                #     products_lists += await asyncio.gather(*tasks_splited)
                 
+                # half_len_tasks = math.ceil(len(tasks) / 2)
+                # half = tasks[:half_len_tasks]
+                # print(len(half))
+                # products_lists = await asyncio.gather(*half)
+                # half = tasks[half_len_tasks:]
+                # print(len(half))
+                # products_lists += await asyncio.gather(*half)
                 products_lists = await asyncio.gather(*tasks)
+                
                 await browser.close()    
-                                            
+            
             products_client = []
             products_links = []
             for products in products_lists:
