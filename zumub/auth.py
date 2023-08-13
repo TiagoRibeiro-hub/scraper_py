@@ -4,7 +4,7 @@ from constants import BASE_URL, ZUMUB_COOKIES_PATH
 from enviroment import EMAIL, PASSWORD
 from models_playwright import Action, Cookies, Browser, Context
 from interceptors.interceptors import Interceptor
-from zumub.auth.models.login import Login
+from zumub.models.login import Login
 
 class Auth:
     async def login_async():

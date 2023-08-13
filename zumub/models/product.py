@@ -1,6 +1,6 @@
 from models_playwright.context import Context
 from interceptors.interceptors import Interceptor
-from constants import BASE_URL, PAGE_EQUALS, ZUMBU
+from constants import BASE_URL, PAGE_EQUALS
 from logger import Log
 
 class Product:   
@@ -89,13 +89,20 @@ class Product:
                         if (has_coupon != null) {
                             couponDiscount = has_coupon.innerHTML;
                         }
+                        const id = ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c => (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16));
                         return {
-                            name: intro_anchor.innerText, 
-                            link: link,
-                            price: prices.querySelector('[class="real_price"]').innerText,
-                            discount_price: discount_price,
-                            savings: savings,
-                            couponDiscount: couponDiscount
+                            data_client: {
+                                id: id,
+                                name: intro_anchor.innerText, 
+                                price: prices.querySelector('[class="real_price"]').innerText,
+                                discount_price: discount_price,
+                                savings: savings,
+                                couponDiscount: couponDiscount
+                            },
+                            data_links: {
+                                id: id,
+                                link: link,
+                            }
                         };                     
                     }
                 };

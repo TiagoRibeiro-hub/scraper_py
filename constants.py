@@ -5,7 +5,7 @@ BASE_URL = 'https://www.zumub.com/EN/'
 ZUMBU = 'zumbu'
 PAGE_EQUALS = '?page='
 ZUMUB_DATA_PATH = 'zumub/data/'
-ZUMUB_COOKIES_PATH = 'zumub/data/cookies.json'
+ZUMUB_COOKIES_PATH = 'zumub/data/cookies'
 
 # ! BLOCKERS
 # * block pages by resource type.

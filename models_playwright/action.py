@@ -1,6 +1,8 @@
 import asyncio
+from constants import ZUMUB_DATA_PATH
 # * ---
 from logger import Log
+from utils_files import Files
 
 class Action:   
     @staticmethod          
@@ -16,3 +18,4 @@ class Action:
         tasks.remove(current)
         for task in tasks:
             task.cancel()
+        Files.delete_all_files_in_directory(f'{ZUMUB_DATA_PATH}')

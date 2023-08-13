@@ -1,6 +1,7 @@
 import json
-from pathlib import Path
+# * ---
 from logger import Log
+from utils_files import Files
 
 class Cookies:
     def __init__(self, context, path): 
@@ -10,7 +11,7 @@ class Cookies:
     async def get_async(self):
         try:
             cookies = await self.context.cookies()
-            Path(self.path).write_text(json.dumps(cookies))
+            Files.write_json(self.path, 'w', cookies)
             Log.info('COOKIES', f'Cookies are loaded')  
         except Exception as e:
             Log.error('COOKIES', f'Something went wrong, {e}')          
@@ -18,7 +19,7 @@ class Cookies:
         
     async def set_async(self):
         try:
-            cokkies = json.loads(Path(self.path).read_text())
+            cokkies = Files.read_json(self.path)
         except Exception as e:
             Log.error('COOKIES', f'Not possible to load cookies, {e}')          
             raise Exception(e)      

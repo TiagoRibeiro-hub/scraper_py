@@ -1,12 +1,11 @@
 from playwright.async_api import async_playwright
 import asyncio
-from pathlib import Path
-import json
 from constants import ZUMUB_DATA_PATH
 # * ---
 from logger import Log
-from models_playwright import Action, Browser
-from zumub.products.models.product import Product
+from models_playwright import Browser
+from zumub.models.product import Product
+from utils_files import Files
 
 class Products:
     @staticmethod
@@ -41,17 +40,22 @@ class Products:
                     
                     products_lists = await asyncio.gather(*tasks)
                     await browser.close()    
-                                         
-                products = []
-                for product in products_lists:
-                    products += product     
+                                              
+                products_client = []
+                products_links = []
+                for products in products_lists:
+                    for product in products:
+                        products_client.append(product['data_client'])
+                        products_links.append(product['data_links'])
                 
-                Log.info("Products Tasks Ends", f'Products {len(products)}')
-                products_json = json.dumps(products)
-                if len(products):
-                    Path(f"{ZUMUB_DATA_PATH}products_{product_name}.json").write_text(products_json)  
-                  
-                return products_json
+                Log.info("Products Tasks Ends", f'Products {len(products_client)}')
+                products_client_json = None
+                if len(products_client):
+                    products_client_json = Files.write_json(f"{ZUMUB_DATA_PATH}products_{product_name}", 'w', products_client)
+                if len(products_links):
+                    Files.write_json(f"{ZUMUB_DATA_PATH}products_links_{product_name}", 'a', products_links)
+                     
+                return products_client_json
             except Exception as e:
                 raise Exception(e)
 
