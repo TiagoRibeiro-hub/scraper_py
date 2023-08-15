@@ -4,6 +4,7 @@ from constants import BASE_URL, PAGE_ACTIVE_COUPONS, ZUMUB_DATA_PATH
 from interceptors.interceptors import Interceptor
 from models_playwright import Browser, Context, Action
 from utils import Files
+from zumub.utils.js_evaluate import JS_Evaluate
 from .products import Products
 
 class Coupons:
@@ -17,34 +18,17 @@ class Coupons:
                 await page.route('**/*', Interceptor.block)
                 await page.goto(f'{PAGE_ACTIVE_COUPONS}')
                 await page.is_visible('voucher-info-wrapper')  
-                coupons = await page.evaluate("""() => {
-                    const vouchers = document.querySelectorAll('.voucher-info-wrapper');
- 
-                    let coupons = [];
-                    for (let i = 0; i < vouchers.length; i++) {
-                        const el = vouchers[i];
-                        coupons.push({
-                                id: ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c => (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)),
-                                end_date: el.querySelector('div.voucher-end-date').innerText,
-                                title: el.querySelector('.voucher-title').innerText,
-                                message: el.querySelector('div.voucher-message').innerText,
-                                link: el.querySelector('.voucher-title a').getAttribute('href')
-                            });                        
-                    }
-                    return coupons;
-                    }""")
+                coupons = await page.evaluate(JS_Evaluate.get_coupons())
                 await Action.close_async(browser, context) 
                 return Files.write_json(f"{ZUMUB_DATA_PATH}coupons", 'w', coupons)
-  
         except Exception as e:
             raise Exception(e)
     
     @staticmethod
     async def get_products_async(id):
         try:
+            # TODO get link from id
             link = 'https://www.zumub.com/EN/sports-nutrition'
-            idx = link.rfind('/') + 1
-            link = link[idx:]
-            return await Products.get_async(link)      
+            return await Products.get_products_async(link)      
         except Exception as e:
             raise Exception(e)
