@@ -3,7 +3,6 @@ from playwright.async_api import async_playwright
 from models_playwright import Browser, Context, Action
 from zumub.utils.product import Product
 from constants import BASE_URL
-from logger import Log
 
 class Products:
     @staticmethod
