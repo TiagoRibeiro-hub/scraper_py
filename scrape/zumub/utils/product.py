@@ -1,5 +1,5 @@
 from scrape.interceptors import Interceptor
-from constants import PAGE_EQUALS, ZUMUB_DATA_PATH
+from constants import PAGE_EQUALS, SORT_BY_NAME, ZUMUB_DATA_PATH
 from logger import Log
 from utils import Files
 from scrape.zumub.utils.js_evaluate import JS_Evaluate
@@ -8,7 +8,7 @@ class Product:
     @staticmethod
     async def get_async(page, category = ''):
         try:
-            await Product.__page_route(page, category, 'div.inner-product-box')
+            await Product.__page_route(page, f'{category}?{SORT_BY_NAME}', 'div.inner-product-box')
             products = await page.evaluate(JS_Evaluate.get_products()) 
             return products        
         except Exception as e:
@@ -18,7 +18,7 @@ class Product:
     @staticmethod
     async def get_by_page_async(page, category, page_nr):
         try:
-            await Product.__page_route(page, f'{category}{PAGE_EQUALS}{page_nr}', 'div.inner-product-box')
+            await Product.__page_route(page, f'{category}?{SORT_BY_NAME}&{PAGE_EQUALS}{page_nr}', 'div.inner-product-box')
             products = await page.evaluate(JS_Evaluate.get_products()) 
             return products
         except Exception as e:

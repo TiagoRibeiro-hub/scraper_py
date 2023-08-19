@@ -3,7 +3,9 @@ from enviroment import SCRAPEOPS_IO_API_KEY
 # ! ZUMUB
 BASE_URL = 'https://www.zumub.com/EN/'
 ZUMBU = 'zumbu'
-PAGE_EQUALS = '?page='
+
+SORT_BY_NAME = 'sort=2a'
+PAGE_EQUALS = 'page='
 PAGE_ACTIVE_COUPONS = 'active_coupons_page'
 # * Files
 ZUMUB_DATA_PATH = 'zumub/data/'
