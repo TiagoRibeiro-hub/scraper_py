@@ -41,7 +41,7 @@ class Settings(metaclass=Singleton):
     def __init__(self, multiple_documents = False):  
         self.multiple_documents = multiple_documents
         self.log_file_level = logging.INFO
-        self.path = ''
+        self.path = 'zumub/logs'
         self.file_handler = None
         self.__set_configuration()
         print_message('LOGGER INFO', 'Logger configuration completed successfully.')
@@ -57,32 +57,9 @@ class Settings(metaclass=Singleton):
     
     def __set_configuration(self) -> str:           
         try:  
-            self.__default_settings()  
-            # with open(f'{ROOT_DIR}/config.yaml', 'r') as f:
-            #     try:
-            #         config = None
-            #         if self.multiple_documents is True:
-            #             docs = yaml.safe_load_all(f)
-            #             for doc in docs:
-            #                 for k, v in doc.items():
-            #                     if k == 'logger':
-            #                         config = v
-            #         else:
-            #             doc = yaml.safe_load(f)
-            #             config = doc['logger']
-                    
-            #         if config is None:
-            #             self.__set_path(None)
-            #         else:
-            #             self.__set_props(config)
-                        
-            #         self.__set_up_handler()          
-            #     except Exception as e:
-            #         print('LOGGER ERROR => yaml failed: ' + e.args)
-            #     finally:
-            #         self.__default_settings()  
-        except:
-            self.__default_settings()  
+            self.__default_settings()   
+        except Exception as e:
+            raise Exception(e) 
 
     def __default_settings(self):
         print_message('LOGGER INFO', 'Default settings used')
@@ -100,13 +77,6 @@ class Settings(metaclass=Singleton):
             filemode='w',
             filename= self.path) 
                 
-              
-    def __set_props(self, config) -> str:   
-        self.__set_file_input_format(config['file_input_format'])         
-        self.__set_console_level(config['console_level'])
-        self.__set_log_file_level(config['log_file_level'])
-        self.__set_path(config['path']) 
-
     def __set_path(self, path):
         if path is None:
             path = f'{ROOT_DIR}/logs'
@@ -119,38 +89,44 @@ class Settings(metaclass=Singleton):
         today = dt.datetime.today()
         file_name = f'{today.month:02d}-{today.day:02d}-{today.year}.log'             
         self.path = f'{path}/{file_name}'
+               
+    # def __set_props(self, config) -> str:   
+    #     self.__set_file_input_format(config['file_input_format'])         
+    #     self.__set_console_level(config['console_level'])
+    #     self.__set_log_file_level(config['log_file_level'])
+    #     self.__set_path(config['path']) 
     
-    def __set_file_input_format(self, file_input_format):
-        if file_input_format is not None:
-            global FORMAT
-            FORMAT = file_input_format
+    # def __set_file_input_format(self, file_input_format):
+    #     if file_input_format is not None:
+    #         global FORMAT
+    #         FORMAT = file_input_format
             
-    def __set_console_level(self, level):
-        if isinstance(level, int):
-            result = self.__set_level(level)
-            if result is not None:
-                global CONSOLE_LEVEL 
-                CONSOLE_LEVEL = result
+    # def __set_console_level(self, level):
+    #     if isinstance(level, int):
+    #         result = self.__set_level(level)
+    #         if result is not None:
+    #             global CONSOLE_LEVEL 
+    #             CONSOLE_LEVEL = result
                 
-    def __set_log_file_level(self, level):
-        if isinstance(level, int):
-            result = self.__set_level(level)
-            if result is not None:
-                self.log_file_level = result
+    # def __set_log_file_level(self, level):
+    #     if isinstance(level, int):
+    #         result = self.__set_level(level)
+    #         if result is not None:
+    #             self.log_file_level = result
                  
-    def __set_level(self, level: int):
-        if level == 1:
-            return logging.DEBUG
-        elif level == 2:
-            return logging.INFO
-        elif level == 3:
-            return logging.WARNING
-        elif level == 4:
-            return logging.ERROR
-        elif level == 5:
-            return logging.CRITICAL
-        else:
-            return None
+    # def __set_level(self, level: int):
+    #     if level == 1:
+    #         return logging.DEBUG
+    #     elif level == 2:
+    #         return logging.INFO
+    #     elif level == 3:
+    #         return logging.WARNING
+    #     elif level == 4:
+    #         return logging.ERROR
+    #     elif level == 5:
+    #         return logging.CRITICAL
+    #     else:
+    #         return None
         
 
 def print_message(title: str, message: str):   

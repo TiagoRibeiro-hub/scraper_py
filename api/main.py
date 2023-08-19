@@ -3,10 +3,10 @@ from fastapi import FastAPI, status, HTTPException
 from uuid import UUID
 # * ---
 from logger import Log
-from zumub import Products
-from zumub.coupons import Coupons
-from models_playwright import Action
+from scrape import Products, Coupons, Action
+from database import create_connection_zumub
 
+create_connection_zumub()
 Log.set_configuration()
 app = FastAPI()
 

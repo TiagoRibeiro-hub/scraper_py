@@ -1,4 +1,4 @@
-from interceptors.interceptors import Interceptor
+from interceptors import Interceptor
 from constants import PAGE_EQUALS, ZUMUB_DATA_PATH
 from logger import Log
 from utils import Files

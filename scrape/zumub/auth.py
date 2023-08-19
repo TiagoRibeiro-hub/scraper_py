@@ -3,7 +3,7 @@ from playwright.async_api import async_playwright
 from constants import BASE_URL, ZUMUB_COOKIES_PATH
 from enviroment import EMAIL, PASSWORD
 from models_playwright import Action, Cookies, Browser, Context
-from interceptors.interceptors import Interceptor
+from interceptors import Interceptor
 from zumub.utils.login import Login
 
 class Auth:

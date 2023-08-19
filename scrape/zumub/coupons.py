@@ -1,7 +1,7 @@
 from playwright.async_api import async_playwright
 # * ---
 from constants import BASE_URL, PAGE_ACTIVE_COUPONS, ZUMUB_DATA_PATH
-from interceptors.interceptors import Interceptor
+from interceptors import Interceptor
 from models_playwright import Browser, Context, Action
 from utils import Files
 from zumub.utils.js_evaluate import JS_Evaluate
