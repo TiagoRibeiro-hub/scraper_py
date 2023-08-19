@@ -1,5 +1,5 @@
-from scrape_ops.utils import Utils
-from scrape_ops.agent import Agent
+from scrape.scrape_ops.utils import Utils
+from scrape.scrape_ops.agent import Agent
 
 class ScrapeOpsAgent(Agent):
     def __init__(

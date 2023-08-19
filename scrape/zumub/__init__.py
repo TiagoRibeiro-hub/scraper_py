@@ -1,7 +1,7 @@
-from zumub.auth import Auth 
-from zumub.products import Products
-from zumub.checkout import Checkout
-from zumub.coupons import Coupons
+from .auth import Auth 
+from .products import Products
+from .checkout import Checkout
+from .coupons import Coupons
 
 __all__ = [
     'Auth', 

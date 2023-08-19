@@ -1,12 +1,12 @@
 import sqlite3
-import tables
+import database.tables as tables  
 
 CONN_ZUMUB = None
 
 def create_connection_zumub():
     try:
         global CONN_ZUMUB
-        CONN_ZUMUB = sqlite3.connect('zumub_data.db')
+        CONN_ZUMUB = sqlite3.connect('database/zumub_data.db')
         tables.create_tables(CONN_ZUMUB)
         CONN_ZUMUB.close()
     except sqlite3.Error as e:

@@ -1,7 +1,7 @@
 from playwright.async_api import async_playwright
 # * ---
-from models_playwright import Browser, Context, Action
-from zumub.utils.product import Product
+from scrape.models_playwright import Browser, Context, Action
+from scrape.zumub.utils.product import Product
 from constants import BASE_URL
 
 class Products:

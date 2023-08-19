@@ -1,6 +1,6 @@
 import asyncio
 # * ---
-from scrape_ops import BrowserHeaderAgent
+from scrape.scrape_ops import BrowserHeaderAgent
 from constants import SCRAPEOPS_NUM_RESULTS, SCRAPEOPS_IO_API_KEY
 from logger import Log
 

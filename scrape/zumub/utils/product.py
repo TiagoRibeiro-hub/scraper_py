@@ -1,8 +1,8 @@
-from interceptors import Interceptor
+from scrape.interceptors import Interceptor
 from constants import PAGE_EQUALS, ZUMUB_DATA_PATH
 from logger import Log
 from utils import Files
-from .js_evaluate import JS_Evaluate
+from scrape.zumub.utils.js_evaluate import JS_Evaluate
 
 class Product:  
     @staticmethod

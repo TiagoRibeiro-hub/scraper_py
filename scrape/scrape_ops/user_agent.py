@@ -1,7 +1,7 @@
 import asyncio
 # * ---
-from scrape_ops.utils import SCRAPEOPS_FAKE_USER_AGENT_ENDPOINT, SCRAPEOPS_FAKE_USER_AGENT_ENABLED
-from scrape_ops.scrape_ops_agent import ScrapeOpsAgent
+from scrape.scrape_ops.utils import SCRAPEOPS_FAKE_USER_AGENT_ENDPOINT, SCRAPEOPS_FAKE_USER_AGENT_ENABLED
+from scrape.scrape_ops.scrape_ops_agent import ScrapeOpsAgent
 
 class UserAgent(ScrapeOpsAgent):
     def __init__(

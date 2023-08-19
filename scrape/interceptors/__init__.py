@@ -1,3 +1,3 @@
-from interceptors import Interceptor
+from .interceptors import Interceptor
 
 __all__ = ['Interceptor']
