@@ -1,10 +1,10 @@
 # folders
 __pycache__/
 logs/
-zumub_data/
+scrape/zumub/data/
+database/cache/
 # files
 teste.py
 enviroment.py
 *.png
-*.json
 *.js
