@@ -36,10 +36,11 @@ class JS_Evaluate:
     @staticmethod
     def get_products() -> str:
         return """() => {
+            try {
                     const all_products = document.querySelectorAll('div.inner-product-box');
                     let data = [];
                     let count_sold_discontinued = 0;
-                    const total = +(document.querySelector('div.pagination p').children[1].innerText)
+                    const total = all_products.length / 2
                     
                     for (let i = 0; i < total; i++) {
                         const el = all_products[i];
@@ -88,6 +89,9 @@ class JS_Evaluate:
                         }
                     };
                     return data;
+            } catch (error) {
+                return error
+            }
                 }"""
     
     @staticmethod

@@ -1,4 +1,3 @@
-import asyncio
 from fastapi import FastAPI, status, HTTPException
 from uuid import UUID
 # * ---
