@@ -3,7 +3,7 @@ from fastapi import FastAPI, status, HTTPException
 from uuid import UUID
 # * ---
 from logger import Log
-from scrape.zumub import Products, Coupons, Categories
+from scrape.zumub import Products, Coupons, Categories, Brand
 from scrape.models_playwright import Action
 
 Log.set_configuration()
@@ -85,6 +85,7 @@ async def coupons():
                 detail=f'{e}'
                 )
 
+# ! http://127.0.0.1:8000/categories
 @app.get('/categories')
 async def categories():
         try:
@@ -103,6 +104,21 @@ async def categories():
                     detail=f'{e}'
                     )
 
-@app.get('/brands')
-async def categories():
-    pass
+# ! http://127.0.0.1:8000/brands/s
+@app.get('/searchbrands/{letter}')
+async def search_brands(letter: str):
+        try:
+            result = await Brand.search_async(letter)
+            if not result:
+                raise HTTPException(
+                    status_code=status.HTTP_404_NOT_FOUND,
+                    detail=f'Not Found'
+                    )
+            
+            return result
+        except Exception as e:
+            Action.cancel_all_tasks(e)
+            raise HTTPException(
+                    status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                    detail=f'{e}'
+                    )

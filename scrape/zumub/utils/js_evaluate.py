@@ -114,5 +114,22 @@ class JS_Evaluate:
                             });
                         }
                         categories.push(category);
-                    }     
+                    }  
+                    return categories;  
                 }"""
+                
+    @staticmethod
+    def search_brand() -> str:
+        return """
+            filter => {
+                const values = document.querySelector(filter).children[1].children;
+                const brands = []
+                for (let i = 0; i < values.length; i++) {
+                    const value = values[i];
+                    brands.push({
+                        'name': value.innerText,
+                        'link': value.querySelector('a').getAttribute('href')
+                    });
+                }
+                return brands;
+            }"""
