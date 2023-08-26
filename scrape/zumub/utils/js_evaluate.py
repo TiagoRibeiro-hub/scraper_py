@@ -89,3 +89,30 @@ class JS_Evaluate:
                     };
                     return data;
                 }"""
+    
+    @staticmethod
+    def get_categories() -> str:
+        return """
+                () => {
+                    var ul_childs = document.querySelector('ul.dropdown-menu.catagories.multi-level').children;
+                    const categories = [];
+                    for (let i = 0; i < ul_childs.length; i++) {
+                        const li = ul_childs[i];
+                        const a_link = li.querySelector('a');
+                        const category = {
+                            'name': a_link.innerText,
+                            'link': a_link.getAttribute('href'),
+                            'sub_category': []
+                        }
+                        const sub_ul_childs = li.querySelector('ul').children;
+                        for (let j = 0; j < sub_ul_childs.length; j++) {
+                            const sub_li = sub_ul_childs[j];
+                            const sub_a_link = sub_li.querySelector('a');
+                            category['sub_category'].push({
+                                'name': sub_a_link.innerText,
+                                'link': sub_a_link.getAttribute('href'),
+                            });
+                        }
+                        categories.push(category);
+                    }     
+                }"""

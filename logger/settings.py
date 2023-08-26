@@ -41,7 +41,7 @@ class Settings(metaclass=Singleton):
     def __init__(self, multiple_documents = False):  
         self.multiple_documents = multiple_documents
         self.log_file_level = logging.INFO
-        self.path = 'zumub/logs'
+        self.path = ROOT_DIR
         self.file_handler = None
         self.__set_configuration()
         print_message('LOGGER INFO', 'Logger configuration completed successfully.')

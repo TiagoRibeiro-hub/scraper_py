@@ -3,6 +3,7 @@ __pycache__/
 logs/
 zumub_data/
 # files
+teste.py
 enviroment.py
 *.png
 *.json

@@ -7,9 +7,10 @@ ZUMBU = 'zumbu'
 SORT_BY_NAME = 'sort=2a'
 PAGE_EQUALS = 'page='
 PAGE_ACTIVE_COUPONS = 'active_coupons_page'
+PAGE_BRANDS = 'brands'
 # * Files
-ZUMUB_DATA_PATH = 'zumub/data/'
-ZUMUB_COOKIES_PATH = 'zumub/data/cookies'
+ZUMUB_DATA_PATH = 'scrape/zumub/data/'
+ZUMUB_COOKIES_PATH = 'scrape/zumub/data/cookies'
 
 # ! BLOCKERS
 # * block pages by resource type.
