@@ -6,6 +6,7 @@ from scrape.models_playwright import Browser, Context, Action
 from utils import Files
 from scrape.zumub.utils.js_evaluate import JS_Evaluate
 from scrape.zumub.products import Products
+from database import Cache
 
 class Coupons:
     @staticmethod
@@ -20,15 +21,23 @@ class Coupons:
                 await page.is_visible('voucher-info-wrapper')  
                 coupons = await page.evaluate(JS_Evaluate.get_coupons())
                 await Action.close_async(browser, context) 
-                return Files.write_json(f"{ZUMUB_DATA_PATH}coupons", 'w', coupons)
+            
+            return coupons
         except Exception as e:
             raise Exception(e)
     
     @staticmethod
-    async def get_products_async(id):
+    async def get_products_async(result, id):
         try:
-            # TODO get link from id
-            link = 'https://www.zumub.com/EN/sports-nutrition'
-            return await Products.get_products_async(link)      
+            # TODO from result(coupons) get link from id
+            link = ''
+            # * get category name
+            category = link[(link.rfind('/') + 1):]
+            raise Exception('NOT IMPLEMENTED')
+            cached = Cache.get_per_category(category, 1)
+            if cached is None:
+                result = await Products.get_async(link) 
+                Cache.set_per_category(category, 1, result)
+            return cached      
         except Exception as e:
             raise Exception(e)

@@ -1,3 +1,4 @@
 playwright
 fastapi[all]
 redis[hiredis]
+redis-om

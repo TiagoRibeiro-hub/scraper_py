@@ -14,10 +14,8 @@ class Products:
                 page = await context.new_page()              
                 products_lists = await Product.get_async(page)               
                 await Action.close_async(browser, context)
-
-            # * get category name
-            category = link[(link.rfind('/') + 1):]
-            return Product.save_json(category, products_lists)
+                       
+            return products_lists
 
         except Exception as e:
             raise Exception(e)
@@ -32,7 +30,7 @@ class Products:
                 products_lists = await Product.get_async(page, category)               
                 await Action.close_async(browser, context)
      
-            return Product.save_json(category, products_lists)
+            return products_lists
 
         except Exception as e:
             raise Exception(e)   
@@ -49,7 +47,7 @@ class Products:
                                 category, 
                                 page_nr)              
                 await Action.close_async(browser, context)                
-            return Product.save_json(category, products_lists)
+            return products_lists
         except Exception as e:
             raise Exception(e)
         
