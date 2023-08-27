@@ -1,7 +1,7 @@
 from playwright.async_api import async_playwright
 # * ---
 from constants import BASE_URL, ZUMUB_COOKIES_PATH
-from enviroment import EMAIL, PASSWORD
+from enviroment import ZUMUB_EMAIL, ZUMUB_PASSWORD
 from scrape.models_playwright import Action, Cookies, Browser, Context
 from scrape.interceptors import Interceptor
 from scrape.zumub.utils.login import Login
@@ -19,7 +19,7 @@ class Auth:
                 # page.on("request", Interceptor.request)
                 # page.on("response", Interceptor.response)
                 await page.goto('')   
-                await Login().submit_async(page, EMAIL, PASSWORD)
+                await Login().submit_async(page, ZUMUB_EMAIL, ZUMUB_PASSWORD)
                 await cookies.get_async()     
                 await Action.close_async(browser, context)
         except Exception as e:

@@ -5,6 +5,7 @@ scrape/zumub/data/
 database/cache/data/
 # files
 teste.py
-enviroment.py
 *.png
 *.js
+*.env
+*.secret
