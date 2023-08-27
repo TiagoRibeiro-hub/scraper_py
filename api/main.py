@@ -4,8 +4,10 @@ from uuid import UUID
 from logger import Log
 from scrape.zumub import Products, Coupons, Categories, Brand
 from scrape.models_playwright import Action
+from database import Cache
 
 Log.set_configuration()
+Cache.connect()
 app = FastAPI()
 
 # ! http://127.0.0.1:8000/products/coupon/

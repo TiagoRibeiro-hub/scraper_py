@@ -1,5 +1,3 @@
-# https://github.com/robcowart/docker_compose_cookbook/blob/master/redis/docker-compose.yml
-
 version: '3'
 
 services:
@@ -9,8 +7,10 @@ services:
     restart: unless-stopped
     hostname: redis
     network_mode: bridge
-    command: bash -c "redis-server --appendonly yes --requirepass passWORD12#"
+    command: bash -c "redis-server --requirepass $$REDIS_PASS --appendonly yes"
     ports:
       - '6379:6379'
     volumes:
       - ./database/cache/data:/data
+    env_file:
+      - config.env

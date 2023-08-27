@@ -4,6 +4,7 @@
 - https://fastapi.tiangolo.com/
 - https://docs.pydantic.dev/latest/
 - https://docs.python.org/3/library
+- https://redis.io/docs/clients/python/
 
 # Using:
 ## SCRAPEOPS.IO
