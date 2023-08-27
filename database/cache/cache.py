@@ -1,17 +1,16 @@
 import redis
 import json
 # * ---
-from enviroment import REDIS_PASS
-
+from enviroment import REDIS_ENV
 REDIS = None
 class Cache:
     @staticmethod
     def connect():
         global REDIS
         REDIS = redis.Redis(
-            host='localhost', 
-            password=REDIS_PASS,
-            port=6379, 
+            host=REDIS_ENV['HOST_REDIS'], 
+            password=REDIS_ENV['REDIS_PASS'], 
+            port=REDIS_ENV['PORT_REDIS'], 
             db=0, 
             decode_responses=True)
         
