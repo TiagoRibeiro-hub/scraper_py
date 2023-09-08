@@ -3,10 +3,8 @@ from playwright.async_api import async_playwright
 from constants import BASE_URL, PAGE_ACTIVE_COUPONS, ZUMUB_DATA_PATH
 from scrape.interceptors import Interceptor
 from scrape.models_playwright import Browser, Context, Action
-from utils import Files
 from scrape.zumub.utils.js_evaluate import JS_Evaluate
 from scrape.zumub.products import Products
-from database import Cache
 
 class Coupons:
     @staticmethod

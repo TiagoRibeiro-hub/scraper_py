@@ -2,15 +2,19 @@ version: '3'
 
 services:
   cache:
-    image: redis/redis-stack-server:latest
+    image: redis/redis-stack:latest
     container_name: redis
     restart: unless-stopped
     hostname: redis
     network_mode: bridge
-    command: bash -c "redis-server --requirepass $$REDIS_PASS --appendonly yes"
+    environment:
+      - REDIS_ARGS="--appendonly yes"
     ports:
       - '6379:6379'
+      - 8001:8001
     volumes:
-      - ./database/cache/data:/data
+      - data:$$CACHE_Path
     env_file:
       - .env.secret
+volumes:
+  data:

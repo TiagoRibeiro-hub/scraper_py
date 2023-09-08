@@ -13,3 +13,7 @@
 # Api
 ## start
 - uvicorn api.main:app --reload
+
+## playwright
+ - playwright install
+ - playwright install-deps 

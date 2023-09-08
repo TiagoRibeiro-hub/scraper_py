@@ -4,17 +4,17 @@ from uuid import UUID
 from logger import Log
 from scrape.zumub import Products, Coupons, Categories, Brand
 from scrape.models_playwright import Action
-from database import Cache
+from database import Cache, ProductDto, CouponsDto
 
 Log.set_configuration()
-Cache.connect()
 app = FastAPI()
 
 # ! http://127.0.0.1:8000/products/coupon/
 @app.get('/products/coupon/{id}')
 async def products_by_coupon(id: UUID):
     try:
-        result = Cache.get('coupons')
+        # TODO
+        result = None
         if result is None:
             result = await Coupons.get_async()
             Cache.set('coupons', result)
@@ -38,12 +38,9 @@ async def products_by_coupon(id: UUID):
 # ! http://127.0.0.1:8000/products/protein/2
 @app.get('/products/{category}/{nr}')
 async def products(category: str, nr: int):
-    try:
-        result = Cache.get_per_category(category, nr)
-        if result is None:
-            result = await Products.get_by_page_async(category, nr)  
-            Cache.set_per_category(category, nr, result)  
-        
+    try:          
+        result = await Products.get_by_page_async(category, nr)  
+       
         if not result:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -62,11 +59,13 @@ async def products(category: str, nr: int):
 @app.get('/products/{category}')
 async def products(category: str):
     try:
-        result = Cache.get_per_category(category, 1)
-        if result is None:
-            result = await Products.get_by_category_async(category)  
-            Cache.set_per_category(category, 1, result)
-               
+        result = await Products.get_by_category_async(category)  
+        for product in result:
+            print(product)
+            new_product = ProductDto(**product)
+            new_product.save()
+            print(new_product.pk)
+            
         if not result:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -85,10 +84,7 @@ async def products(category: str):
 @app.get('/coupons')
 async def coupons():
     try:
-        result = Cache.get('coupons')
-        if result is None:
-            result = await Coupons.get_async()
-            Cache.set('coupons', result)
+        result = await Coupons.get_async()
             
         if not result:
             raise HTTPException(
@@ -108,11 +104,8 @@ async def coupons():
 @app.get('/categories')
 async def categories():
     try:
-        result = Cache.get('categories')
-        if result is None:
-            result = await Categories.get_async()
-            Cache.set('categories', result)
-            
+        result = await Categories.get_async()
+
         if not result:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
