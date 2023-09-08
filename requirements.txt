@@ -1,4 +1,6 @@
 playwright
 fastapi[all]
 redis[hiredis]
+redisearch
 redis-om
+python-dotenv

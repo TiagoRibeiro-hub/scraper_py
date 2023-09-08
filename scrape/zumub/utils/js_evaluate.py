@@ -12,7 +12,6 @@ class JS_Evaluate:
                             link = has_link.getAttribute('href')
                         }
                         coupons.push({
-                                id: ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c => (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)),
                                 end_date: el.querySelector('div.voucher-end-date').innerText,
                                 title: el.querySelector('.voucher-title').innerText,
                                 message: el.querySelector('div.voucher-message').innerText,
@@ -64,21 +63,14 @@ class JS_Evaluate:
                                 if (has_coupon != null) {
                                     couponDiscount = has_coupon.innerHTML;
                                 }
-                                const id = ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c => (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16));
                                 data.push({
-                                    data_client: {
-                                        id: id,
                                         name: intro_anchor.innerText,
                                         price: prices.querySelector('[class="real_price"]').innerText,
                                         discount_price: discount_price,
                                         savings: savings,
-                                        couponDiscount: couponDiscount
-                                    },
-                                    data_links: {
-                                        data_client_id: id,
-                                        link: link,
-                                    }
-                                });
+                                        couponDiscount: couponDiscount,
+                                        link: link
+                                    });
                             }
                         }
                         else {
