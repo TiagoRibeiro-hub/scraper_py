@@ -4,7 +4,7 @@ from uuid import UUID
 from logger import Log
 from scrape.zumub import Products, Coupons, Categories, Brand
 from scrape.models_playwright import Action
-from database import Cache, ProductDto, CouponsDto
+from database import CacheProducts, ProductDto
 
 Log.set_configuration()
 app = FastAPI()
@@ -57,22 +57,21 @@ async def products(category: str, nr: int):
         
 # ! http://127.0.0.1:8000/products/gallo
 @app.get('/products/{category}')
-async def products(category: str):
+async def products(category: str) -> list[ProductDto]:
     try:
-        result = await Products.get_by_category_async(category)  
-        for product in result:
-            print(product)
-            new_product = ProductDto(**product)
-            new_product.save()
-            print(new_product.pk)
+        products = CacheProducts.find_all_products(category, 1)
+        if len(products) == 0:
+            result = await Products.get_by_category_async(category)  
+            products = CacheProducts.set_products(result, category, 1)
             
-        if not result:
+        if not products:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail=f'Not Found'
-                )
-        
-        return result
+                )    
+                
+        return products
+    
     except Exception as e:
         Action.cancel_all_tasks(e)
         raise HTTPException(

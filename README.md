@@ -5,6 +5,7 @@
 - https://docs.pydantic.dev/latest/
 - https://docs.python.org/3/library
 - https://redis.io/docs/clients/python/
+- https://github.com/kata198/indexedredis/blob/master/README.md
 
 # Using:
 ## SCRAPEOPS.IO
@@ -14,6 +15,7 @@
 ## start
 - uvicorn api.main:app --reload
 
+# install
 ## playwright
  - playwright install
  - playwright install-deps 

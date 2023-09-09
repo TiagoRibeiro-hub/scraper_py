@@ -2,7 +2,7 @@ version: '3'
 
 services:
   cache:
-    image: redis/redis-stack:latest
+    image: redis/redis-stack-server:latest
     container_name: redis
     restart: unless-stopped
     hostname: redis
@@ -12,9 +12,9 @@ services:
     ports:
       - '6379:6379'
       - 8001:8001
-    volumes:
-      - data:$$CACHE_Path
-    env_file:
-      - .env.secret
-volumes:
-  data:
+#     volumes:
+#       - data:/home/tiago/scraper/supplements_scraper/database/cache/data/
+#     env_file:
+#       - .env.secret
+# volumes:
+#   data:

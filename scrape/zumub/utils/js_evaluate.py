@@ -68,7 +68,7 @@ class JS_Evaluate:
                                         price: prices.querySelector('[class="real_price"]').innerText,
                                         discount_price: discount_price,
                                         savings: savings,
-                                        couponDiscount: couponDiscount,
+                                        coupon_discount: couponDiscount,
                                         link: link
                                     });
                             }
@@ -97,7 +97,6 @@ class JS_Evaluate:
                         const a_link = li.querySelector('a');
                         const category = {
                             'name': a_link.innerText,
-                            'link': a_link.getAttribute('href'),
                             'sub_category': []
                         }
                         const sub_ul_childs = li.querySelector('ul').children;
