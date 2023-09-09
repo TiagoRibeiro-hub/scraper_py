@@ -41,7 +41,7 @@ class ProductDtoRedis(IndexedRedisModel):
  
 class CacheProducts:   
     @staticmethod
-    def set_products(result , category, page_nr: int):
+    def set(result , category, page_nr: int):
         expire = Cache.get_expire_date()
         Cache.connectIndexedRedis()  
         REDIS = Cache.connect()
@@ -87,7 +87,7 @@ class CacheProducts:
             Log.error("CACHE: SET_PRODUCTS", e)
     
     @staticmethod
-    def find_all_products(category, page_nr):
+    def find_all(category, page_nr):
         try:
             Cache.connectIndexedRedis()        
             result = ProductDtoRedis.objects.filter(category=category).filter(page_nr=page_nr).all().sort_by('_id')

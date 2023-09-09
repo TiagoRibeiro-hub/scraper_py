@@ -3,9 +3,8 @@ from playwright.async_api import async_playwright
 from scrape.models_playwright import Browser, Context, Action
 from scrape.interceptors import Interceptor
 from scrape.zumub.utils.js_evaluate import JS_Evaluate
-from constants import BASE_URL, ZUMUB_DATA_PATH
+from constants import BASE_URL
 from logger import Log
-from utils import Files
 
 class Categories:
     @staticmethod
@@ -21,7 +20,7 @@ class Categories:
                 categories = await page.evaluate(JS_Evaluate.get_categories()) 
                 await Action.close_async(browser, context)
         
-            return Files.write_json(f"{ZUMUB_DATA_PATH}categories", 'w', categories)
+            return categories
         except Exception as e:
             Log.error('FUNC: GET_CATEGORIES_ASYNC', f'Somenthing went wrong, {e}')          
             raise Exception(e) 

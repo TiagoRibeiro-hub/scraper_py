@@ -97,13 +97,13 @@ class JS_Evaluate:
                         const a_link = li.querySelector('a');
                         const category = {
                             'name': a_link.innerText,
-                            'sub_category': []
+                            'sub_categories': []
                         }
                         const sub_ul_childs = li.querySelector('ul').children;
                         for (let j = 0; j < sub_ul_childs.length; j++) {
                             const sub_li = sub_ul_childs[j];
                             const sub_a_link = sub_li.querySelector('a');
-                            category['sub_category'].push({
+                            category['sub_categories'].push({
                                 'name': sub_a_link.innerText,
                                 'link': sub_a_link.getAttribute('href'),
                             });

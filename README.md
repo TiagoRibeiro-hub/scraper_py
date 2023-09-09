@@ -5,7 +5,7 @@
 - https://docs.pydantic.dev/latest/
 - https://docs.python.org/3/library
 - https://redis.io/docs/clients/python/
-- https://github.com/kata198/indexedredis/blob/master/README.md
+- indexedredis => https://github.com/kata198/indexedredis/blob/master/README.md
 
 # Using:
 ## SCRAPEOPS.IO

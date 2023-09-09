@@ -1,8 +1,9 @@
 from .cache.products_cache import CacheProducts, ProductDto
+from .cache.categories_cache import CacheCategories, CategoryDto
 
 __all__ =[
-    'CacheProducts', 
-    'ProductDto',
+    'CacheProducts', 'ProductDto',
+    'CacheCategories', 'CategoryDto',
     ]
 
 
@@ -12,14 +13,6 @@ __all__ =[
 #     end_date: str
 #     message: str
 #     link: str
-    
-# class SubCategory(EmbeddedJsonModel):
-#     name: str
-#     link: str
-    
-# class Category(JsonModel):
-#     name: str
-#     sub_category: List[SubCategory]
     
     
 # class Pagination(JsonModel):

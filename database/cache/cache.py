@@ -17,4 +17,4 @@ class Cache:
     
     @staticmethod
     def get_expire_date():
-        return int(datetime.combine(datetime.now(), time.max).strftime("%Y%m%d%H%M%S"))
+        return int(datetime.combine(datetime.now(), time.max).strftime('%Y%m%d%H%M%S'))
