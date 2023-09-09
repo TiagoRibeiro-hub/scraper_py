@@ -10,11 +10,11 @@ services:
     environment:
       - REDIS_ARGS="--appendonly yes"
     ports:
-      - '6379:6379'
+      - 6379:6379
       - 8001:8001
-#     volumes:
-#       - data:/home/tiago/scraper/supplements_scraper/database/cache/data/
-#     env_file:
-#       - .env.secret
-# volumes:
-#   data:
+    volumes:
+      - data:/home/tiago/scraper/supplements_scraper/database/cache/data/
+    env_file:
+      - .env.secret
+volumes:
+  data:

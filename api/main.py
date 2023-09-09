@@ -14,11 +14,7 @@ app = FastAPI()
 async def products_by_coupon(id: UUID):
     try:
         # TODO
-        result = None
-        if result is None:
-            result = await Coupons.get_async()
-            Cache.set('coupons', result)
-            
+        result = await Coupons.get_async()       
         result = await Coupons.get_products_async(result, id)
 
         if not result:
@@ -38,10 +34,13 @@ async def products_by_coupon(id: UUID):
 # ! http://127.0.0.1:8000/products/protein/2
 @app.get('/products/{category}/{nr}')
 async def products(category: str, nr: int):
-    try:          
-        result = await Products.get_by_page_async(category, nr)  
-       
-        if not result:
+    try:    
+        products = CacheProducts.find_all_products(category, 1)
+        if len(products) == 0:
+            result = await Products.get_by_page_async(category, nr)    
+            products = CacheProducts.set_products(result, category, 1)     
+    
+        if not products:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail=f'Not Found'

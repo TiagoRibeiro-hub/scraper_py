@@ -42,7 +42,9 @@ class ProductDtoRedis(IndexedRedisModel):
 class CacheProducts:   
     @staticmethod
     def set_products(result , category, page_nr: int):
-        Cache.connect()  
+        expire = Cache.get_expire_date()
+        Cache.connectIndexedRedis()  
+        REDIS = Cache.connect()
         try:
             products = []
             for product in result:
@@ -72,7 +74,14 @@ class CacheProducts:
                         id = new_product.getPk(),
                     )
                 )
+                REDIS.expire(f'_ir_|ProductDtoRedis:data:{new_product.getPk()}', expire)
+                REDIS.expire(f'_ir_|ProductDtoRedis:idx:name:{product["name"]}', expire)
                 
+            REDIS.expire(f'_ir_|ProductDtoRedis:keys', expire)
+            REDIS.expire(f'_ir_|ProductDtoRedis:next', expire)
+            REDIS.expire(f'_ir_|ProductDtoRedis:idx:page_nr:{page_nr}', expire)
+            REDIS.expire(f'_ir_|ProductDtoRedis:idx:category:{category}', expire)
+
             return products
         except Exception as e:
             Log.error("CACHE: SET_PRODUCTS", e)
@@ -80,8 +89,8 @@ class CacheProducts:
     @staticmethod
     def find_all_products(category, page_nr):
         try:
-            Cache.connect()        
-            result = ProductDtoRedis.objects.filter(category=category).filter(page_nr=page_nr).all()
+            Cache.connectIndexedRedis()        
+            result = ProductDtoRedis.objects.filter(category=category).filter(page_nr=page_nr).all().sort_by('_id')
             products = []
             for product in result:
                 products.append(
